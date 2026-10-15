@@ -1,0 +1,4 @@
+export type SpeechState='idle'|'listening'|'processing'|'error';
+type RecognitionLike={start:()=>void;stop:()=>void;onresult:((e:any)=>void)|null;onerror:((e:any)=>void)|null;onend:(()=>void)|null;continuous:boolean;interimResults:boolean;lang:string};
+export function createSpeechRecognizer(onText:(text:string)=>void,onState:(state:SpeechState)=>void):RecognitionLike|null{const C:any=(window as any).SpeechRecognition||(window as any).webkitSpeechRecognition;if(!C)return null;const r:RecognitionLike=new C();r.continuous=false;r.interimResults=false;r.lang='en-US';r.onresult=(e:any)=>{const text=e.results?.[0]?.[0]?.transcript?.trim();if(text)onText(text)};r.onerror=()=>onState('error');r.onend=()=>onState('idle');return r}
+export function speak(text:string){if(!('speechSynthesis'in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=1.02;u.pitch=1.25;u.volume=1;window.speechSynthesis.speak(u)}
