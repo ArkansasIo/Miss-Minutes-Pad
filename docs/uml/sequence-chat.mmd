@@ -1,0 +1,20 @@
+sequenceDiagram
+    actor User
+    participant UI as TemPad
+    participant SR as SpeechRecognition
+    participant API as HTTPS API
+    participant Agent as AI Agent
+    participant DB as MySQL
+    participant Audio as Audio Layer
+
+    User->>UI: Speak or type
+    UI->>SR: Start recognition
+    SR-->>UI: Transcript
+    UI->>API: POST /api/agent/chat
+    API->>Agent: Validate and process message
+    Agent->>DB: Read/write authorized state
+    DB-->>Agent: Data
+    Agent-->>API: Agent response
+    API-->>UI: JSON reply
+    UI->>Audio: Play authorized asset or synthesize
+    Audio-->>User: Spoken response
