@@ -1,0 +1,3 @@
+# Example crontab for the dynamic backend.
+# Run maintenance once every 15 minutes.
+*/15 * * * * cd /srv/miss-minutes-pad/backend && /usr/bin/npm run cron >> /var/log/miss-minutes-cron.log 2>&1
