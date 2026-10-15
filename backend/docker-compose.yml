@@ -1,0 +1,26 @@
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: miss_minutes
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: local_password
+      MYSQL_ROOT_PASSWORD: local_root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/001-schema.sql:ro
+  api:
+    build: .
+    depends_on:
+      - mysql
+    environment:
+      PORT: 3000
+      DATABASE_URL: mysql://app_user:local_password@mysql:3306/miss_minutes
+      CORS_ORIGINS: http://localhost:5173
+    ports:
+      - "3000:3000"
+volumes:
+  mysql_data:
