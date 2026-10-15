@@ -1,0 +1,71 @@
+erDiagram
+    USERS ||--o{ SESSIONS : has
+    USERS ||--o{ CONVERSATIONS : owns
+    CONVERSATIONS ||--o{ MESSAGES : contains
+    USERS ||--o{ MEMORIES : owns
+    USERS ||--o{ TIMELINE_EVENTS : owns
+    PLUGINS ||--o{ JOBS : schedules
+    USERS ||--o{ AGENT_EVENTS : generates
+
+    USERS {
+      bigint id PK
+      varchar email
+      varchar password_hash
+      datetime created_at
+      datetime updated_at
+    }
+    SESSIONS {
+      bigint id PK
+      bigint user_id FK
+      varchar token_hash
+      datetime expires_at
+      datetime revoked_at
+    }
+    CONVERSATIONS {
+      bigint id PK
+      bigint user_id FK
+      varchar title
+      datetime created_at
+      datetime updated_at
+    }
+    MESSAGES {
+      bigint id PK
+      bigint conversation_id FK
+      varchar role
+      text content
+      datetime created_at
+    }
+    MEMORIES {
+      bigint id PK
+      bigint user_id FK
+      varchar memory_key
+      text value
+      datetime created_at
+    }
+    TIMELINE_EVENTS {
+      bigint id PK
+      bigint user_id FK
+      varchar event_type
+      text payload
+      datetime created_at
+    }
+    PLUGINS {
+      bigint id PK
+      varchar name
+      varchar version
+      boolean enabled
+    }
+    JOBS {
+      bigint id PK
+      bigint plugin_id FK
+      varchar schedule
+      varchar status
+      datetime last_run_at
+    }
+    AGENT_EVENTS {
+      bigint id PK
+      bigint user_id FK
+      varchar event_type
+      text metadata
+      datetime created_at
+    }
