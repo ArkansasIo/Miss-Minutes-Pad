@@ -1,0 +1,14 @@
+flowchart TD
+    U[User / iPhone Safari] --> UI[TemPad UI]
+    UI --> SR[Speech Recognition]
+    SR --> AJAX[HTTPS AJAX / fetch]
+    UI --> AJAX
+    AJAX --> API[Backend API]
+    API --> AUTH[Auth + Validation]
+    API --> AGENT[AI Agent]
+    API --> DB[(MySQL)]
+    API --> JOBS[Scheduler / Cron]
+    AGENT --> DB
+    AGENT --> OUT[JSON Response]
+    OUT --> UI
+    UI --> AUDIO[WAV/MP3 or Speech Synthesis]
